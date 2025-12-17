@@ -33,16 +33,27 @@ def save_data(file_name:str, data):
 
 @app.get('/items')
 def get_all_items():
-    return load_json_file(DB_DEPLOYMENT)
+    return load_json_file(DB_PATH)
 
 @app.post('/items')
 def add_item(name:str, quantity:int):
-    items = load_json_file(DB_DEPLOYMENT)
+    items = load_json_file(DB_PATH)
     item_id = len(items) + 1
     item = Item(id=item_id, name=name, quantity=quantity)
     items.append(item.model_dump())
-    save_data(DB_DEPLOYMENT, items)
-    return {'message':'good'}
+    save_data(DB_PATH, items)
+
+DATA = Path('/data/backup_shopping_list.json')
+@app.get('/backup')
+def read_data():
+    return load_json_file(DATA)
+@app.post('/backup/save')
+def save_to_bind_mount(name:str, quantity:int):
+    items = load_json_file(DB_PATH)
+    item_id = len(items) + 1
+    item = Item(id=item_id, name=name, quantity=quantity)
+    items.append(item.model_dump())
+    save_data(DATA, items)
 
 
 if __name__=='__main__':
