@@ -7,7 +7,7 @@ Fill in the Docker commands you used to complete the test.
 ### Create the volume
 
 ```bash
-
+docker volume create  fastapi-db 
 ```
 
 ### Seed the volume (via Docker Desktop)
@@ -21,13 +21,13 @@ Fill in the Docker commands you used to complete the test.
 ### Build the image
 
 ```bash
-
+docker build -t shopping-server1:v1 .
 ```
 
 ### Run the container
 
 ```bash
-
+docker run -d -p 8000:8000 -v fastapi-db:/app/db --name sever1 shopping-server1:v1
 ```
 
 ## Server 2
@@ -35,12 +35,14 @@ Fill in the Docker commands you used to complete the test.
 ### Build the image
 
 ```bash
+docker build -t shopping-server2:v1 .
 
 ```
 
 ### Run the container
 
 ```bash
+docker run -d -p 8001:8000 -v fastapi-db:/app/db --name sever2 shopping-server2:v1
 
 ```
 
